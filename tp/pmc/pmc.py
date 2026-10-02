@@ -33,12 +33,14 @@ history = model.fit(X_train, y_train, epochs=30,
 test_loss, test_acc = model.evaluate(X_test, y_test)
 print(f"test : loss = {test_loss:.4f}, exactitude = {test_acc:.4f}")
 
-racine = Path(__file__).resolve().parents[2]
-model.save(Path(__file__).parent / "modele_fashion_mnist.keras")
+model.save(Path(__file__).resolve().parent / "modele_fashion_mnist.keras")
 
+dossier = Path(__file__).resolve().parents[2] / "images"
+dossier.mkdir(exist_ok=True)
+
+# courbes d'apprentissage
 pd.DataFrame(history.history).plot(figsize=(8, 5))
 plt.grid(True)
 plt.gca().set_ylim(0, 1)
-(racine / "images").mkdir(exist_ok=True)
-plt.savefig(racine / "images" / "fashion_mnist_courbes.png")
+plt.savefig(dossier / "fashion_mnist_courbes.png")
 plt.show()

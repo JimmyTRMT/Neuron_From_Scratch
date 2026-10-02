@@ -43,29 +43,33 @@ SGD with a learning rate of 0.01, 30 epochs, 5000 images kept aside for validati
 
 ![Fashion MNIST curves](images/fashion_mnist_courbes.png)
 
-Best result: about 91.5% validation accuracy. After roughly 10 epochs the validation loss stops improving while the training loss keeps going down, so the model starts overfitting. Shrinking the layers didn't beat 91.5%.
+Validation accuracy ends between about 89% and 91.5% depending on the run. The model saved in this repo reaches 89.2% on validation and 88.3% on the test set. After roughly 10 epochs the validation loss stops improving while the training loss keeps going down, so the model starts overfitting. Shrinking the layers didn't beat 91.5%.
 
-The trained model is saved in `tp/pmc/modele_fashion_mnist.keras`.
+The trained model is saved in `tp/pmc/modele_fashion_mnist.keras`, and the script prints the test set accuracy at the end.
 
 ## Run it
 
-Use Python 3.11, TensorFlow doesn't support the newest versions yet.
+TensorFlow doesn't support the newest Python versions yet (tested with Python 3.9 and TensorFlow 2.20). Use a virtual environment so the project doesn't depend on whatever Python is installed globally:
 
 ```bash
+python -m venv .venv
+.venv\Scripts\activate          # Windows
+# source .venv/bin/activate     # Linux / macOS
 pip install -r requirements.txt
 python tp/neurone/train_neuron.py
 python tp/pmc/pmc.py
 ```
 
-`train_neuron.py` saves its two plots in `images/`. `pmc.py` saves the model, the curves in `images/`, and prints the test accuracy.
+`train_neuron.py` saves its two plots in `images/`. `pmc.py` saves the model in `tp/pmc/` and the curves in `images/`. Running it again overwrites the saved model.
 
 ## Structure
 
 ```
-src/neuronnes/Neuron.py      the neuron class
-tp/neurone/train_neuron.py   training on 2D points
-tp/pmc/pmc.py                Keras MLP on Fashion MNIST
-images/                      plots used in this README
+src/neuronnes/Neuron.py             the neuron class
+tp/neurone/train_neuron.py          training on 2D points
+tp/pmc/pmc.py                       Keras MLP on Fashion MNIST
+tp/pmc/modele_fashion_mnist.keras   trained MLP
+images/                             plots used in this README
 ```
 
 ## Team
