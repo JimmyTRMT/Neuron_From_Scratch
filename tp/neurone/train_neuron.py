@@ -36,12 +36,13 @@ pertes = []
 
 for epoque in range(epoques):
     a = neurone.forward(X)
-    dw, db = neurone.gradients(X, y)
-    neurone.update(dw, db, tauxApprentissage)
     pertes.append(neurone.loss(a, y))
     if epoque % 50 == 0:
-        exact = exactitude(neurone.predict(X), y)
+        # meme poids pour la perte et l'exactitude
+        exact = exactitude((a >= 0.5).astype(int), y)
         print(f"epoque {epoque} : loss = {pertes[-1]:.4f}, exactitude = {exact:.4f}")
+    dw, db = neurone.gradients(X, y, a)
+    neurone.update(dw, db, tauxApprentissage)
 
 a = neurone.forward(X)
 yPred = neurone.predict(X)
@@ -51,7 +52,8 @@ print(f"loss finale : {neurone.loss(a, y):.4f}")
 print(f"vrais positifs : {vp}, vrais negatifs : {vn}, faux positifs : {fp}, faux negatifs : {fn}")
 print(f"exactitude : {exactitude(yPred, y):.4f}")
 
-dossier = Path(__file__).parent
+dossier = Path(__file__).resolve().parents[2] / "images"
+dossier.mkdir(exist_ok=True)
 
 # courbe de perte
 plt.figure()

@@ -12,7 +12,7 @@ class Neuron:
 
     def activation(self, z):
         # sigmoide
-        return 1 / (1 + np.exp(-z))
+        return 1 / (1 + np.exp(-np.clip(z, -500, 500)))
 
     def forward(self, X):
         return self.activation(self.aggregation(X))
@@ -25,9 +25,11 @@ class Neuron:
         a = np.clip(a, 1e-15, 1 - 1e-15)
         return -np.mean(y * np.log(a) + (1 - y) * np.log(1 - a))
 
-    def gradients(self, X, y):
-        # dL/dz = a - y
-        error = self.forward(X) - y
+    def gradients(self, X, y, a=None):
+        # dL/dz = a - y, a peut etre fourni pour eviter un second forward
+        if a is None:
+            a = self.forward(X)
+        error = a - y
         dw = X.T @ error / len(y)
         db = np.mean(error)
         return dw, db

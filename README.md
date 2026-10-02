@@ -57,7 +57,7 @@ python tp/neurone/train_neuron.py
 python tp/pmc/pmc.py
 ```
 
-`train_neuron.py` saves its two plots next to the script.
+`train_neuron.py` saves its two plots in `images/`. `pmc.py` saves the model, the curves in `images/`, and prints the test accuracy.
 
 ## Structure
 
